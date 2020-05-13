@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        jQuery.fn.serializeObject = function() {
+            var obj = null;
+            try {
+                if (this[0].tagName && this[0].tagName.toUpperCase() == "FORM") {
+                    var arr = this.serializeArray();
+                    if (arr) {
+                        obj = {};
+                        jQuery.each(arr, function() {
+                            obj[this.name] = this.value;
+                        });
+                    }//if ( arr ) {
+                }
+            } catch (e) {
+                alert(e.message);
+            } finally {
+            }
+            return obj;
+        };
+        function to_ajax(){
+            const serializedValues2 = $('#testForm').serializeObject();
+            alert(serializedValues2);
+            $.ajax({
+                type : 'POST',
+                url : '/users/',
+                data : serializedValues2,
+                dataType : 'json',
+                error: function(xhr, status, error){
+                    alert(error);
+                },
+                success : function(json){
+                    alert(json)
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <form name="testForm" id="testForm" method="POST" action="/users">
+        <input type="number" name="X1">
+        <input type="number" name="X2">
+        <input type="number" name="X3">
+        <button onsubmit="to_ajax()">SUBMIT</button>
+    </form>
+</body>
+</html>
