@@ -28,6 +28,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use('/', function(req,res,next) {
+  console.log('Any METHOD / request');
+  next();
+});
+app.get('/', function(req, res, next) {
+  console.log('GET METHOD / request');
+  next();
+});
+app.post('/', function(req, res, next) {
+  console.log('POST METHOD / request');
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -58,6 +71,6 @@ app.use(session({
     secure:false,
   },
 }));
-app.use(falsh());
+app.use(flash());
 
 module.exports = app;
